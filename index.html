@@ -2,9 +2,52 @@
 <html>
   <head>
     <title>Aurelia</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/viewer/styles/reader/webpdf.mini.css"/>
+    <style>
+        #docViewer {
+            height:700px;
+            width:800px;
+        }
+    </style>
   </head>
 
   <body aurelia-app="main">
-    <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+    <div id="docViewer" style="background: #ABABAB;"></div>
+    <!--<script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>-->
   </body>
+<script type="text/javascript" src="http://localhost:8080/viewer/scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://localhost:8080/viewer/scripts/jquery-migrate-1.2.1.js"></script>
+
+<script type="text/javascript" src="http://localhost:8080/viewer/scripts/release_websdk/webpdf.tools.mini.js?v=20130426"></script>
+
+<script type="text/javascript" src="http://localhost:8080/viewer/scripts/control/pc/webpdf.frontend.mini.js"></script>
+
+<script>
+
+    var language = "en-US";
+
+    $(document).ready(function(){
+        var newTab = false;
+
+        i18n.init(options, function (t) {
+            $("body").i18n();
+            var baseUrl =  "http://localhost:8080/"; //refer to webapp\scripts\control\common\common.js
+            seajs.use(['http://localhost:8080/viewer/scripts/release_websdk/webpdf.mini.js?v=20160920'], function (init) {
+                var options = {
+                    language: language,
+                    baseUrl: baseUrl,
+                    scrollBarType: 0//two type,pc 0,mobile 1
+                };
+
+                WebPDF.createViewer("docViewer", options);
+
+                WebPDF.createAccount(baseUrl, language);
+                getCurrentUserInfo(baseUrl, options, newTab, null); //refer to webapp\scripts\control\common\common.js
+            });
+
+        });
+
+    });
+
+</script>
 </html>
